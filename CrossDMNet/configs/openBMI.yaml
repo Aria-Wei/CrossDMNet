@@ -1,0 +1,11 @@
+name: 'openBMI'
+n_classes: 2
+n_subs: 54
+n_chans: 22
+in_samples: 1000
+classes_labels: ['Left hand', 'Right hand']
+data_path: 'D:/dataset/BCI/OpenBMI'
+LOSO: False
+standardized: True
+shuffle: True
+one_hot: False

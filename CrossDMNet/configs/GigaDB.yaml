@@ -1,0 +1,11 @@
+name: 'GigaDB'
+n_classes: 2
+n_subs: 52
+n_chans: 22
+in_samples: 750
+classes_labels: ['Left hand', 'Right hand']
+data_path: 'D:/dataset/BCI/GigaDB'
+LOSO: False
+standardized: True
+shuffle: True
+one_hot: False

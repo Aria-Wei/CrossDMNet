@@ -1,0 +1,61 @@
+class Config:
+    def __init__(
+            self,
+            data_name='BCI2a',
+            model_name='CrossDMNet',
+            optim_name='Adam',
+            lr=1e-3,
+            epochs=500,
+            batch_size=64,
+            use_regularization=True,
+            weight_decay=None,
+            conv_weight_decay=None,
+            fc_weight_decay=None,
+            attn_weight_decay=None,
+            apply_to_weights=False,
+            apply_to_grads=True,
+            max_norm_value=None,
+            apply_lr_scheduler=False,
+            lr_scheduler_patience=20,
+            early_stopping_patience=200,
+            min_lr=1e-4,
+            factor=0.9,
+            beta1=0.9,
+            beta2=0.999,
+            checking_gradients=False,
+            debug=False,
+            augmentation=False,
+            apply_early_stopping=False,
+            drawing_learning_curves=False,
+            summary=True,
+            n_features=384,
+    ):
+        self.data_name = data_name
+        self.model_name = model_name
+        self.optim_name = optim_name
+        self.lr = lr
+        self.epochs = epochs
+        self.batch_size = batch_size
+        self.use_regularization = use_regularization
+        self.weight_decay = weight_decay
+        self.conv_weight_decay = conv_weight_decay
+        self.fc_weight_decay = fc_weight_decay
+        self.attn_weight_decay = attn_weight_decay
+        self.apply_to_weights = apply_to_weights
+        self.apply_to_grads = apply_to_grads
+        self.max_norm_value = max_norm_value
+        self.apply_lr_scheduler = apply_lr_scheduler
+        self.lr_scheduler_patience = lr_scheduler_patience
+        self.early_stopping_patience = early_stopping_patience
+        self.min_lr = min_lr
+        self.beta1 = beta1
+        self.beta2 = beta2
+        self.factor = factor
+        self.debug = debug
+        self.augmentation = augmentation
+        self.checking_gradients = checking_gradients
+        self.apply_early_stopping = apply_early_stopping
+        self.drawing_learning_curves = drawing_learning_curves
+        self.summary = summary
+        self.n_features=n_features
+
