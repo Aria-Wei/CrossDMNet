@@ -475,13 +475,21 @@ if __name__ == '__main__':
 
     trainer = Trainer(config)
 
+    #%% Choose one protocol:
+    #   'train_test'     : reproduce the original benchmark protocol.
+    #   'train_val_test' : use an 8:2 stratified split of the original
+    #                      training data for training/checkpoint selection,
+    #                      while keeping the official test set unseen.
+
+    split = 'train_test' # or 'train_test'
+
     #%% predict
     n_subs = trainer.data_conf['n_subs']
     trainer.init()
     all_accs = []
     all_kappas = []
     for sub_id in range(1, n_subs+1):
-        model_path = f'checkpoints/{config.data_name}/sub-{sub_id}.pt'
+        model_path = f'checkpoints/{split}/{config.data_name}/sub-{sub_id}.pt'
         _, X_test, _, y_test = trainer.load_data(sub_id)
         acc_test, kappa_test, _, _, _, _ = trainer.predict(X_test, y_test, model_path)
         all_accs.append(acc_test)
@@ -491,13 +499,9 @@ if __name__ == '__main__':
     print(f'avg acc, {sum(all_accs)/n_subs:.4f}, avg kappa, {sum(all_kappas)/n_subs:.4f}')
 
 
-    #%% train (using train_test split) 
-    # accs, kappas = trainer.train(lambda_center=0.005, lambda_triplet=0.5, c_ratio=0.5, seed=1, split='train_test')
+    #%% train
+    # accs, kappas = trainer.train(lambda_center=0.005, lambda_triplet=0.5, c_ratio=0.5, seed=1, split=split)
 
-    #%% train (using train_val_test split) 
-    # accs, kappas = trainer.train(lambda_center=0.005, lambda_triplet=0.5, c_ratio=0.5, seed=1, split='train_val_test')
-
-    
 
 
 
