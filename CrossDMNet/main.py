@@ -197,7 +197,7 @@ class Trainer:
 
 
     def train(self, lambda_center=0.005, lambda_triplet=0.5,
-              c_ratio=0.5, seed=1):
+              c_ratio=0.5, seed=1, split='train_test'):
         self.setRandom(seed)
 
         all_test_accs = []
@@ -228,8 +228,16 @@ class Trainer:
             lr_drop_epochs = []
             pre_lr = self.config.lr
             X_train, X_test, y_train, y_test = self.load_data(sub_id)
-            train_loader = self.gen_loader(X_train, y_train)
-            test_loader = self.gen_loader(X_test, y_test)
+            if split == 'train_val_test':
+                X_train, X_val, y_train, y_val = train_test_split(X_train,
+                                                              y_train,
+                                                              test_size=0.2,
+                                                              random_state=seed)
+                train_loader = self.gen_loader(X_train, y_train)
+                val_loader = self.gen_loader(X_val, y_val)
+            else:
+                train_loader = self.gen_loader(X_train, y_train)
+                val_loader = self.gen_loader(X_test, y_test)
 
             model_path = f"{self.result_path}/saved_models"
             os.makedirs(model_path, exist_ok=True)
@@ -239,7 +247,7 @@ class Trainer:
 
             in_train_time = time.time()
             for epoch in range(self.config.epochs):
-                loss_train_C, loss_train_P, acc_train, loss_val_C, loss_val_P, acc_val = self.trainOneEpoch(train_loader, test_loader, epoch,
+                loss_train_C, loss_train_P, acc_train, loss_val_C, loss_val_P, acc_val = self.trainOneEpoch(train_loader, val_loader, epoch,
                                                                               lambda_center=lambda_center, lambda_triplet=lambda_triplet,
                                                                               c_ratio=c_ratio)
 
@@ -482,8 +490,13 @@ if __name__ == '__main__':
     print(f'avg acc, {sum(all_accs)/n_subs:.4f}, avg kappa, {sum(all_kappas)/n_subs:.4f}')
 
 
-    #%% train
-    # accs, kappas = trainer.train(lambda_center=0.005, lambda_triplet=0.5, c_ratio=0.5, seed=1)
+    #%% train (using train_test split) 
+    # accs, kappas = trainer.train(lambda_center=0.005, lambda_triplet=0.5, c_ratio=0.5, seed=1, split='train_test')
+
+    #%% train (using train_val_test split) 
+    # accs, kappas = trainer.train(lambda_center=0.005, lambda_triplet=0.5, c_ratio=0.5, seed=1, split='train_val_test')
+
+    
 
 
 
